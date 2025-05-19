@@ -1,0 +1,117 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.4.5'
+	id 'io.spring.dependency-management' version '1.1.7'
+	id 'com.google.protobuf' version '0.9.4'
+	id 'idea'
+}
+
+group = 'com.hacom'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+	all {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'io.projectreactor:reactor-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	
+	implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.5.0'
+	
+    implementation 'net.devh:grpc-server-spring-boot-starter:2.14.0.RELEASE'
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+	
+	//Akka Actor
+    implementation 'com.typesafe.akka:akka-actor_2.13:2.6.20'
+    implementation 'com.typesafe.akka:akka-actor-typed_2.13:2.6.20'
+    
+	// gRPC
+    implementation 'io.grpc:grpc-netty-shaded:1.61.0'
+    implementation 'io.grpc:grpc-protobuf:1.61.0'
+    implementation 'io.grpc:grpc-stub:1.61.0'
+    
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    compileOnly 'org.mapstruct:mapstruct:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+	
+	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+    //implementation 'org.apache.logging.log4j:log4j-yaml:2.20.0' problemas al reconocer el file con la dependencia
+    implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
+	implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
+	implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.20.0'
+	
+	// Agregá para soporte YAML
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.1'
+	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.17.1'
+	
+	/*implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
+    implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
+    implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.20.0'
+    //implementation 'org.apache.logging.log4j:log4j-layout-template-json:2.20.0' // si usas JSON layout
+    implementation 'org.apache.logging.log4j:log4j-yaml:2.20.0'*/
+    
+    //implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+    
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+
+
+// gRPC: Generación de clases
+/*
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.25.3'
+    }
+    plugins {
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.61.0'
+        }
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.plugins {
+                grpc {}
+            }
+        }
+    }
+}
+
+// gRPC
+sourceSets {
+    main {
+    	proto {
+		    srcDir 'src/main/java/proto'
+		}
+        java {
+            srcDirs 'build/generated/source/proto/main/grpc'
+            srcDirs 'build/generated/source/proto/main/java'
+        }
+    }
+}
+*/

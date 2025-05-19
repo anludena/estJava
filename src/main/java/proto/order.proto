@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option java_package = "com.hacom.order.api.grpc.service";
+option java_multiple_files = true;
+option java_outer_classname = "OrderProto";
+
+service OrderService {
+  rpc CreateOrder (OrderRequest) returns (OrderResponse);
+}
+
+message OrderRequest {
+  string order_id = 1;
+  string client_id = 2;
+  string client_phone = 3;
+  repeated OrderItem items = 4;
+}
+
+message OrderResponse {
+  string order_id = 1;
+  string status = 2;
+}
+
+message OrderItem {
+  string productId = 1;
+  int32 quantity = 2;
+  double price = 3;
+}

@@ -1,0 +1,23 @@
+#mongodb:
+  #uri: mongodb://localhost:27017/mibase
+
+server:
+ port: 8080  # Puerto del servidor Webflux
+
+spring:
+  data:
+   database:
+   #mongodb:
+      uri: ${MONGODB_URI:mongodb://localhost:27017/mydbmongo}  # Variable que usaremos para la cadena de conexión
+
+app:
+  database:
+  #mongodb:
+   host: ${MONGODB_SERVER:localhost}    # Dirección del servidor MongoDB
+   port:   ${MONGODB_PORT:27017}        # Puerto del servidor MongoDB 
+   username: ${MONGODB_USERNAME:admin}  # User BD Mongo
+   password: ${MONGODB_PASSWORD:AdminMongoDB135_}    # password BD Mongo
+   database: ${MONGODB_DATABASE:mydbmongo} # Name DataBase
+
+logging:
+ config: classpath:log4j2.yml

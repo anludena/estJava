@@ -1,0 +1,46 @@
+Configuration:
+  status: warn
+  name: YAMLConfig
+  monitorInterval: 30
+
+  Appenders:
+    Console:
+      name: ConsoleAppender
+      target: SYSTEM_OUT
+      PatternLayout:
+        pattern: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"
+
+    RollingFile:
+      name: FileAppender
+      fileName: logs/order.log
+      filePattern: logs/order-%d{yyyy-MM-dd}-%i.log.gz
+      PatternLayout:
+        pattern: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"
+      Policies:
+        TimeBasedTriggeringPolicy:
+          interval: 1
+          modulate: true
+        SizeBasedTriggeringPolicy:
+          size: 100MB
+      DefaultRolloverStrategy:
+        max: 30
+
+  Loggers:
+    com.hacom:
+      level: debug
+      additivity: false
+      AppenderRef:
+        - ref: ConsoleAppender
+        - ref: FileAppender
+
+    org.springframework:
+      level: warn
+      additivity: false
+      AppenderRef:
+        - ref: ConsoleAppender
+
+  Root:
+    level: info
+    AppenderRef:
+      - ref: ConsoleAppender
+      - ref: FileAppender
