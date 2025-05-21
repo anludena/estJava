@@ -19,9 +19,9 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
-	all {
+	/*all {
         exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
-    }
+    }*/
 }
 
 repositories {
@@ -40,7 +40,15 @@ dependencies {
 	
 	implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.5.0'
 	
-    implementation 'net.devh:grpc-server-spring-boot-starter:2.14.0.RELEASE'
+    //implementation 'net.devh:grpc-server-spring-boot-starter:2.14.0.RELEASE'
+    /*implementation('net.devh:grpc-server-spring-boot-starter:2.14.0.RELEASE') {
+    	exclude group: 'org.apache.logging.log4j', module: 'log4j-to-slf4j'
+	}*/
+	
+	implementation("net.devh:grpc-server-spring-boot-starter:3.1.0.RELEASE")
+	//implementation("net.devh:grpc-server-spring-boot-starter:3.0.0.RELEASE")
+	
+	
     implementation 'javax.annotation:javax.annotation-api:1.3.2'
 	
 	//Akka Actor
@@ -56,24 +64,17 @@ dependencies {
     compileOnly 'org.mapstruct:mapstruct:1.5.5.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 	
-	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
-    //implementation 'org.apache.logging.log4j:log4j-yaml:2.20.0' problemas al reconocer el file con la dependencia
+	/*implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+    //implementation 'org.apache.logging.log4j:log4j-yaml:2.20.0' //problemas al reconocer el file con la dependencia
     implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
 	implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
-	implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.20.0'
+	implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.20.0'*/
 	
 	// Agregá para soporte YAML
-	implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.1'
-	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.17.1'
+	/*implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.1'
+	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.17.1'*/
 	
-	/*implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
-    implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
-    implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.20.0'
-    //implementation 'org.apache.logging.log4j:log4j-layout-template-json:2.20.0' // si usas JSON layout
-    implementation 'org.apache.logging.log4j:log4j-yaml:2.20.0'*/
-    
-    //implementation 'org.springframework.boot:spring-boot-starter-log4j2'
-    
+    //implementation 'org.apache.logging.log4j:log4j-layout-template-json:2.20.0' // si usas JSON layout    
 }
 
 tasks.named('test') {

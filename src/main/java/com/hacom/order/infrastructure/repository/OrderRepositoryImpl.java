@@ -2,7 +2,7 @@ package com.hacom.order.infrastructure.repository;
 
 import com.hacom.order.domain.model.Order;
 import com.hacom.order.infrastructure.persistence.OrderEntity;
-import lombok.extern.slf4j.Slf4j;
+//import lombok.extern.slf4j.Slf4j;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -11,12 +11,12 @@ import java.util.stream.Collectors;
 
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Repository;
-
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
-@Slf4j
+//import reactor.core.publisher.Flux;
+//import reactor.core.publisher.Mono;
+
+//@Slf4j
 @Repository
 public class OrderRepositoryImpl implements OrderRepository {
 	
@@ -51,7 +51,7 @@ public class OrderRepositoryImpl implements OrderRepository {
 	  @Override
 	  public Order searcOrderBy_id(ObjectId _id) {
 		  
-		  log.info("Modulo: Order, ejecución Repository.searcOrderBy_id");
+		  //log.info("Modulo: Order, ejecución Repository.searcOrderBy_id");
 		  
 		  Order orderResult =  mongoOrderRepository.findById(_id)
 							  					   .map(OrderMapperInfra::toDomain)
@@ -62,7 +62,7 @@ public class OrderRepositoryImpl implements OrderRepository {
 	  @Override
 	  public List<Order>searchByRangeDate(OffsetDateTime dateStart, OffsetDateTime dateEnd) {
 		  
-		  log.info("Modulo: Order, ejecución Repository.searchByRangeDate");
+		  //log.info("Modulo: Order, ejecución Repository.searchByRangeDate");
 		  
 		  List<Order> orderList = mongoOrderRepository.findByTsBetween(dateStart, dateEnd)
 						    							.map(OrderMapperInfra::toDomain)
@@ -89,7 +89,7 @@ public class OrderRepositoryImpl implements OrderRepository {
 	  @Override
 	  public Order createOrder(Order order){
 		  
-		  log.info("Modulo: Order, ejecución Repository.createOrder");
+		  //log.info("Modulo: Order, ejecución Repository.createOrder");
 		  
 		  //OrderEntity orderEntity = orderMapper.toEntity(order);
 		  OrderEntity orderEntity = OrderMapperInfra.toEntity(order);
@@ -118,7 +118,7 @@ public class OrderRepositoryImpl implements OrderRepository {
 	  @Override
 	  public List<Order> createOrders(List<Order> listOrders) {
 		  
-		  log.info("Modulo: Order, ejecución Repository.createOrders");
+		  //log.info("Modulo: Order, ejecución Repository.createOrders");
 		  
 		  List<OrderEntity> listOrderEntity = listOrders.stream()
 				  										.map(OrderMapperInfra::toEntity)
@@ -133,7 +133,6 @@ public class OrderRepositoryImpl implements OrderRepository {
 													    .sequential()
 													    .collectList()
 													    .block();
-		  
 		  return orderList;
 	  };
 	  

@@ -1,10 +1,13 @@
 package com.hacom.order.infrastructure.config;
 
 import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
 //import com.mongodb.MongoClientSettings;
 import com.mongodb.reactivestreams.client.MongoClient;
 import com.mongodb.reactivestreams.client.MongoClients;
 
+import org.bson.codecs.configuration.CodecRegistries;
+import org.bson.codecs.configuration.CodecRegistry;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractReactiveMongoConfiguration;
@@ -45,10 +48,31 @@ public class ConfigurationDataBase extends AbstractReactiveMongoConfiguration {
         return MongoClients.create(settings);
     }*/
     
+    /*@Override
+    public MongoClient reactiveMongoClient() {
+        //String connectString = String.format("mongodb://%s:%s@%s:%s/%s", username, password, server, portServer, database);
+    	String connectString = String.format("mongodb://%s:%s@%s:%s/%s?authSource=admin", username, password, server, portServer, database);
+        return MongoClients.create(connectString);
+    }*/
+    
     @Override
     public MongoClient reactiveMongoClient() {
-        String connectString = String.format("mongodb://%s:%s@%s:%s/%s", username, password, server, portServer, database);
-        return MongoClients.create(connectString);
+    	String connectString = String.format("mongodb://%s:%s@%s:%s/%s?authSource=admin", username, password, server, portServer, database);
+    	
+        ConnectionString connectionString = new ConnectionString(connectString);
+
+        CodecRegistry codecRegistry = CodecRegistries
+        								.fromRegistries(
+										            CodecRegistries.fromCodecs(new OffsetDateTimeCodec()), // tu codec personalizado
+										            MongoClientSettings.getDefaultCodecRegistry()           // los codecs por defecto
+        								);
+         
+        MongoClientSettings settings = MongoClientSettings.builder()
+												          .applyConnectionString(connectionString)
+												          .codecRegistry(codecRegistry)
+												          .build();
+        
+        return MongoClients.create(settings);
     }
 
 }

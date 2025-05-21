@@ -1,5 +1,7 @@
 package com.hacom.client;
 
+import java.util.concurrent.TimeUnit;
+
 import com.hacom.order.api.grpc.generate.proto.OrderItem;
 import com.hacom.order.api.grpc.generate.proto.OrderRequest;
 import com.hacom.order.api.grpc.generate.proto.OrderResponse;
@@ -10,9 +12,9 @@ import io.grpc.ManagedChannelBuilder;
 
 public class ClientGPRC {
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		
-		ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8080)
+		ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 9090) //127.0.0.1
 												        .usePlaintext()
 												        .build();
 		 
@@ -37,12 +39,21 @@ public class ClientGPRC {
 					                       .addItems(item1)
 					                       .addItems(item2)
 					                       .build();
-
-		OrderResponse response = stub.createOrder(request);
-
+		
+		OrderResponse response = null;
+		//OrderResponse response = stub.createOrder(request);
+		
+		try {
+		    response = stub.createOrder(request);
+		    System.out.println("Respuesta del servicio: " + response);
+		} catch (Exception e) {
+		    System.err.println("Error al invocar el servicio gRPC: " + e.getMessage());
+		}
+		 
 		System.out.println("Respuesta del servicio: " + response);
-
+		
 		channel.shutdown();
+		channel.awaitTermination(5, TimeUnit.SECONDS);
 
 	}
 

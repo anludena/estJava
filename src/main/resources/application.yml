@@ -19,5 +19,20 @@ app:
    password: ${MONGODB_PASSWORD:AdminMongoDB135_}    # password BD Mongo
    database: ${MONGODB_DATABASE:mydbmongo} # Name DataBase
 
+debug: true 
 logging:
- config: classpath:log4j2.yml
+ level:
+  root: DEBUG
+  net.devh.boot.grpc.server: DEBUG
+  net.devh.boot.grpc.client: DEBUG
+
+grpc:
+  server:
+    port: 9090
+    enable-census-stats: false
+    enable-census-tracing: false
+  nettyServer:
+   use-native-transport: false   # desde 3.1.0.RELEASE
+
+#logging:
+ #config: classpath:log4j2.yml
